@@ -1,0 +1,5 @@
+node_modules/
+*-verification.json
+*-test.json
+migration-fixture.json
+migration-mobile.png

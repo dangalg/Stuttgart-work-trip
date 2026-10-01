@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1627">
+  <meta name="description" content="Dan's offline Stuttgart trade-show planner for VISION and Motek, 6–7 October 2026.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1627'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%234ce0c4' stroke-width='6'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23f8c566'/%3E%3C/svg%3E">
+  <title>Stuttgart Show Planner · 2026</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="leisure.js" defer></script>
+  <script src="transfer.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">◎</span><div><strong>STUTTGART / 26</strong><small>VISION + MOTEK · 6–7 OCT</small></div></div>
+    <div class="header-actions"><a class="quick-map" href="venue-overview.pdf" target="_blank" rel="noopener">Site map ↗</a><button class="install" id="installBtn" type="button" hidden>Install app</button></div>
+  </header>
+  <main>
+    <section class="intro" aria-label="Trip overview">
+      <div><p class="eyebrow">DAN'S FIELD GUIDE <span class="offline-dot" id="connectionDot"></span></p><h1>Two days.<br><em>Your route.</em></h1><p class="intro-copy">Explore the floor, capture useful answers, and make Wednesday count.</p></div>
+      <div class="progress-card"><span>VISIT PROGRESS</span><strong id="progressCount">0 / 19</strong><div class="progress-track"><i id="progressBar"></i></div><small>Original priority stops</small></div>
+    </section>
+    <nav class="tabs" aria-label="Planner sections">
+      <button class="tab active" data-view="tuesday" aria-current="page">Tue 6 <span id="tueCount"></span></button>
+      <button class="tab" data-view="wednesday">Wed 7 <span id="wedCount"></span></button>
+      <button class="tab" data-view="ideas">City ideas</button>
+      <button class="tab" data-view="trip">Trip 4–8</button>
+      <button class="tab" data-view="map">Map</button>
+      <button class="tab" data-view="directory">Directory <span id="dirCount"></span></button>
+    </nav>
+    <section class="toolbar" id="toolbar">
+      <label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search company or booth" autocomplete="off" aria-label="Search company or booth"></label>
+      <div class="filter-scroll" id="filters" aria-label="Filter by category"></div>
+    </section>
+    <div class="plan-tools"><button class="action edit-plan" type="button" data-view="ideas">Explore city ideas</button><button id="addActivity" class="action manual-add" type="button">+ Add manually</button><span class="plan-help">Pick a recommendation or write your own activity. Saved on this device.</span></div>
+    <section id="tripControls" class="trip-controls" hidden><label>Choose date <select id="tripDay" aria-label="Choose date"><option value="sunday">Sun 4 October</option><option value="monday">Mon 5 October</option><option value="tuesday">Tue 6 October</option><option value="wednesday">Wed 7 October</option><option value="thursday">Thu 8 October</option><option value="">Unassigned</option></select></label><p>Munich arrival: 4 Oct, 18:50. Return flight: Munich, 8 Oct, 20:00. Car and hotels are booked: 4 Oct in Munich, then Stuttgart. Allow time for travel and fit optional ideas around your other plans.</p></section>
+    <section id="ideaControls" class="idea-controls" hidden><label>Choose city <select id="ideaCity" aria-label="Choose city"><option value="All">Both cities</option><option value="Stuttgart">Stuttgart</option><option value="Munich">Munich</option></select></label><label>Activity type <select id="ideaCategory" aria-label="Activity type"></select></label><label>Date <select id="ideaDate" aria-label="Idea date"><option value="All">Any date</option><option value="sunday">Sun 4 October</option><option value="monday">Mon 5 October</option><option value="tuesday">Tue 6 October</option><option value="wednesday">Wed 7 October</option><option value="thursday">Thu 8 October</option></select></label></section>
+    <section id="viewHeading" class="view-heading"></section>
+    <section id="suggestions" class="suggestions" hidden></section>
+    <section id="mapPanel" class="map-panel" hidden aria-label="Exhibitor map">
+      <div class="map-top"><div><strong id="mapTitle">Hall 10</strong><p id="mapCaption"></p></div><div class="map-halls" id="mapHalls" aria-label="Choose hall"></div></div>
+      <div class="map-stage" id="mapStage"><div class="map-layer" id="mapLayer"></div></div>
+      <div class="map-bottom"><div class="map-zoom"><button type="button" data-zoom="out" aria-label="Zoom out">−</button><button type="button" data-zoom="in" aria-label="Zoom in">＋</button></div><div id="mapSelection" class="map-selection"></div></div>
+    </section>
+    <section id="leisureSuggestions" class="suggestions" hidden></section>
+    <p id="saveNotice" class="save-notice" role="status" hidden></p>
+    <section id="list" class="list" aria-live="polite"></section>
+    <div id="moreWrap" class="more-wrap" hidden><button id="moreBtn" type="button">Show more exhibitors</button></div>
+    <section class="source-note"><strong>Offline snapshot · 23 Sep 2026</strong><p>499 VISION directory entries and 134 Motek exhibitors. Booths and participation can change; check the official directories before travel. Candidate labels use official categories where available; Motek labels based on company names are leads to verify.</p><div class="source-links"><a href="venue-overview.pdf" target="_blank" rel="noopener">Venue overview · offline ↗</a><a href="accessible-routes.pdf" target="_blank" rel="noopener">Accessible routes · offline ↗</a><a href="catering-map.pdf" target="_blank" rel="noopener">Food &amp; cafés · offline ↗</a></div><p>The venue maps show hall locations and facilities, not individual booths. Use the detailed hall plans for stands.</p><div class="source-links"><a href="https://www.messe-stuttgart.de/vision/en/exhibition/exhibitors-products/exhibitor-index/" target="_blank" rel="noopener">VISION directory ↗</a><a href="https://www.motek-messe.de/en/list-of-exhibitors/" target="_blank" rel="noopener">Motek directory ↗</a><a href="https://www.messe-stuttgart.de/vision/en/travel-accommodation/venue/site-plan/" target="_blank" rel="noopener">VISION hall plans ↗</a><a href="https://www.motek-messe.de/en/arrival-hallplans/" target="_blank" rel="noopener">Motek hall plan ↗</a></div><details><summary>Save this app for offline use</summary><p>On iPhone: Share → Add to Home Screen. On Android: browser menu → Install app. Open it once online to save the exhibitor snapshot and venue maps. Notes and visit status stay on this device.</p></details></section>
+  <details class="source-note transfer-tools"><summary>Back up or move my plan</summary><p>Download your schedule and notes from this browser. Keep the private file in Files; it is not uploaded.</p><button type="button" class="action" id="exportPlan">Download my plan</button><button type="button" class="action" id="exportPrevious" hidden>Download plan before last import</button><label>Import a saved plan<input id="importPlan" type="file" accept=".json,application/json"></label><p id="transferStatus" role="status"></p></details><dialog id="importDialog" aria-labelledby="importTitle"><form id="importForm"><h2 id="importTitle">Review saved plan</h2><p id="importPreview"></p><p>This replaces this browser's schedule and notes. A backup of the current plan will be kept on this device. Your original app stays unchanged.</p><div class="editor-buttons"><button type="button" class="action" id="cancelImport">Cancel</button><button type="submit" class="action edit-plan">Replace with saved plan</button></div></form></dialog>
+</main>
+  <footer class="bottom"><span>MESSE STUTTGART</span><span>Private planner · local notes</span></footer>
+<dialog id="activityDialog" aria-labelledby="editorTitle"><form id="activityForm"><h2 id="editorTitle">Add activity</h2><p class="plan-caption">All times are local in Germany. Changes and notes stay in this browser.</p><label>Activity name<input id="activityName" maxlength="180" required></label><div class="editor-grid"><label>Date<select id="activityDay" aria-label="Date"></select></label><label>Time (optional)<input id="activityTime" type="time"></label></div><label>Location<input id="activityLocation" maxlength="240"></label><label>Details<textarea id="activityDetail" rows="4"></textarea></label><p id="activityError" role="alert"></p><div class="editor-buttons"><button type="button" id="cancelActivity" class="action">Cancel</button><button type="submit" class="action edit-plan">Save activity</button></div></form></dialog>
+</body>
+</html>
